@@ -12,10 +12,6 @@
 #include <combaseapi.h>		// for CoCreateInstance
 #include <shobjidl_core.h>	// for IFileDialog
 
-HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// fromCommonFileDialogApp.cpp
-HRESULT SetDefaultValuesForProperties();
-INT_PTR CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // in DlgProc.cpp
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)

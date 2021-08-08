@@ -13,3 +13,7 @@ HRESULT SaveFileByDialog(std::wstring& fileNameHolder);
 // EventHandlers.cpp
 void OnSaveAs(TopLevelWnd& wnd);
 void OnSave(TopLevelWnd& wnd);
+
+HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// fromCommonFileDialogApp.cpp
+HRESULT SetDefaultValuesForProperties();
+INT_PTR CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // in DlgProc.cpp
