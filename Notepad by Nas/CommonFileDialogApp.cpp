@@ -1002,7 +1002,7 @@ HRESULT SaveFileByDialog(std::wstring& fileNameHolder)
 										hr = pfsd->GetResult(&psiResult);
 										if (SUCCEEDED(hr))
 										{
-											// We are just going to print out the name of the file for sample sake. ---- Nope, I'm returning it by pointer parameter - Nas
+											// We are just going to print out the name of the file for sample sake. ---- Nope, I'm returning it by pointer parameter
 											PWSTR pszFilePath = nullptr;
 											hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 											if (SUCCEEDED(hr))

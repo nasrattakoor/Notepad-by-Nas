@@ -12,7 +12,7 @@
 #include <combaseapi.h>		// for CoCreateInstance
 #include <shobjidl_core.h>	// for IFileDialog
 
-HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// from CommonFileDialogApp.cpp
+HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// fromCommonFileDialogApp.cpp
 HRESULT SetDefaultValuesForProperties();
 BOOL CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // in DlgProc.cpp
 
@@ -48,7 +48,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					else
 					{
 						// overwrite the file already associated with window
-						OnSave(*hWndToTopLevelWndMap[hWnd]);
+						PostMessageW(hWnd, WM_COMMAND, MenuItem::File::SAVE, 0);
 					}
 				}
 				// or if user chooses not to save
@@ -66,9 +66,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MenuItem::File::OPEN:
 		{
-			//THIS CODE IS CASUING CREATEWINDOWEX TO THROW AN EXCEPTION
-			//DOES THIS CODE THROW AN UNHANDLED EXCEPTION ???
-
 			// wstring to hold file path chosen by user in Open-Dialog
 			std::wstring fileName;
 
@@ -80,7 +77,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			// create a file stream associated with the file path
-			hWndToTopLevelWndMap[hWnd]->file = std::wfstream(fileName);
+			hWndToTopLevelWndMap[hWnd]->file.open(fileName);
 
 			// read the entire file into a wstringstream
 			// TODO: create new window when opening a file
@@ -94,9 +91,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// set the contents of the edit control to the contents of the wstringstream
 			// this window's now associated with an existing file, so set newFile to false
-			//// TODO: fix this problem using dynamic strings instead of HUGE arrays
-			//wchar_t contents_w[51200]; // 100 KB
-			//mbstowcs(contents_w, contents.str().c_str(), 1048576);
 			SetWindowTextW(hWndToTopLevelWndMap[hWnd]->editControl, contents.str().c_str());
 			hWndToTopLevelWndMap[hWnd]->newFile = false;
 		}
@@ -115,6 +109,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				OnSave(*hWndToTopLevelWndMap[hWnd]);
 			}
 		}
+			break;
+		case MenuItem::File::SAVEAS:
+			OnSaveAs(*hWndToTopLevelWndMap[hWnd]);
 			break;
 		case MenuItem::File::CLOSE:
 			//

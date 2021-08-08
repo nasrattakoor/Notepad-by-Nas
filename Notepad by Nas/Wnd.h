@@ -47,7 +47,7 @@ struct Wnd
 
 	bool wordWrapOn = false;
 
-	bool newFile = true; // whether the file doesn't already exist
+	bool newFile = true; // whether the stream member is associated with a file or not
 	std::vector<HWND> children;
 
 	DWORD styles;
@@ -158,6 +158,23 @@ struct TopLevelWnd : public Wnd
 	}
 
 	TopLevelWnd() = default;
+
+	// delete copy members because fstream cannot be copied
+	TopLevelWnd& operator=(const TopLevelWnd&) = delete;
+	TopLevelWnd(const TopLevelWnd&) = delete;
+	
+	// move members
+	TopLevelWnd(TopLevelWnd&& source)
+		: Wnd(std::move(source)),
+		file(std::move(source.file))
+	{
+	}
+	TopLevelWnd& operator=(TopLevelWnd&& right)
+	{
+		Wnd::operator=(std::move(right));
+		file = std::move(right.file);
+		return *this;
+	}
 
 	HMENU hMenu;
 	HWND editControl;
