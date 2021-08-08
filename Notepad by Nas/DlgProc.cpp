@@ -1,7 +1,7 @@
 #include "NasWin.h"
 #include "resource.h"
 
-BOOL CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

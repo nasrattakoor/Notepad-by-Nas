@@ -14,7 +14,7 @@
 
 HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// fromCommonFileDialogApp.cpp
 HRESULT SetDefaultValuesForProperties();
-BOOL CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // in DlgProc.cpp
+INT_PTR CALLBACK SaveDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); // in DlgProc.cpp
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
