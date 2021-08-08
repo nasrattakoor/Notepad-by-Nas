@@ -22,7 +22,7 @@ void OnSaveAs(TopLevelWnd& wnd)
 	// copy text from edit control to array
 	GetWindowTextW(wnd.editControl, contents, sizeof contents / sizeof contents[0] - 1);
 	// open file stream
-	wnd.file.open(L"file.txt", std::ios_base::out);
+	wnd.file.open(wnd.filePath, std::ios_base::out | std::ios_base::trunc);
 	// if stream opened successfully
 	if (wnd.file.is_open())
 	{
