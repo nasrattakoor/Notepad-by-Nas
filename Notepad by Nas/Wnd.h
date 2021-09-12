@@ -84,7 +84,7 @@ struct TopLevelWnd : public Wnd
 		}
 
 		// create window
-		hWnd = CreateWindowExW(
+		this->hWnd = CreateWindowExW(
 			0,
 			className,
 			name,
@@ -99,7 +99,7 @@ struct TopLevelWnd : public Wnd
 		);
 
 		// Check if Window Creation Failed
-		if (!hWnd)
+		if (!this->hWnd)
 		{
 			exit(-1);
 		}
@@ -107,10 +107,10 @@ struct TopLevelWnd : public Wnd
 		// Menu Creation
 		{
 			// Create Menu
-			hMenu = CreateMenu(); // Main Menu Bar
+			this->hMenu = CreateMenu(); // Main Menu Bar
 			// File SubMenu
 			HMENU hFileMenu = CreateMenu();
-			AppendMenuW(hMenu, MF_POPUP, UINT_PTR(hFileMenu), L"File"); // Pop-Up Menu
+			AppendMenuW(this->hMenu, MF_POPUP, UINT_PTR(hFileMenu), L"File"); // Pop-Up Menu
 			AppendMenuW(hFileMenu, MF_STRING, MenuItem::File::NEW, L"New");
 			AppendMenuW(hFileMenu, MF_STRING, MenuItem::File::OPEN, L"Open...");
 			AppendMenuW(hFileMenu, MF_STRING, MenuItem::File::CLOSE, L"Close");
@@ -120,22 +120,22 @@ struct TopLevelWnd : public Wnd
 			AppendMenuW(hFileMenu, MF_STRING, MenuItem::File::EXIT, L"Exit");
 			// Edit SubMenu
 			HMENU hEditMenu = CreateMenu();
-			AppendMenuW(hMenu, MF_POPUP, UINT_PTR(hEditMenu), L"Edit");
+			AppendMenuW(this->hMenu, MF_POPUP, UINT_PTR(hEditMenu), L"Edit");
 			AppendMenuW(hEditMenu, MF_STRING, MenuItem::Edit::CUT, L"Cut");
 			AppendMenuW(hEditMenu, MF_STRING, MenuItem::Edit::COPY, L"Copy");
 			AppendMenuW(hEditMenu, MF_STRING, MenuItem::Edit::PASTE, L"Paste");
 			AppendMenuW(hEditMenu, MF_STRING, MenuItem::Edit::UNDO, L"Undo");
 			// Format SubMenu
 			HMENU hFormatMenu = CreateMenu();
-			AppendMenuW(hMenu, MF_POPUP, UINT_PTR(hFormatMenu), L"Format");
+			AppendMenuW(this->hMenu, MF_POPUP, UINT_PTR(hFormatMenu), L"Format");
 			AppendMenuW(hFormatMenu, MF_STRING | MF_UNCHECKED, MenuItem::Format::WORD_WRAP, L"Word Wrap");
 			// View SubMenu
 			HMENU hViewMenu = CreateMenu();
-			AppendMenuW(hMenu, MF_POPUP, UINT_PTR(hViewMenu), L"View");
-			AppendMenuW(hMenu, MF_POPUP, 0, L"View");
-			AppendMenuW(hMenu, MF_STRING, MenuItem::Help::VIEW_HELP, L"Help"); // No Pop-Up; Sends WM_COMMAND msg with wParam = the enum we pass here
+			AppendMenuW(this->hMenu, MF_POPUP, UINT_PTR(hViewMenu), L"View");
+			AppendMenuW(this->hMenu, MF_POPUP, 0, L"View");
+			AppendMenuW(this->hMenu, MF_STRING, MenuItem::Help::VIEW_HELP, L"Help"); // No Pop-Up; Sends WM_COMMAND msg with wParam = the enum we pass here
 
-			SetMenu(hWnd, hMenu);
+			SetMenu(this->hWnd, this->hMenu);
 		}
 
 		// create Edit control child window for text editing
@@ -143,18 +143,18 @@ struct TopLevelWnd : public Wnd
 			WS_CHILD | WS_BORDER | (wordWrapOn ? ES_AUTOHSCROLL : 0) | ES_AUTOVSCROLL | ES_MULTILINE | WS_VSCROLL,
 			0, 0,
 			width, height,
-			hWnd, nullptr, nullptr, nullptr);
+			this->hWnd, nullptr, nullptr, nullptr);
 
 		if (!editControl)
 		{
 			exit(-1);
 		}
 
-		ShowWindow(hWnd, SW_SHOW);
+		ShowWindow(this->hWnd, SW_SHOW);
 		ShowWindow(editControl, SW_SHOW); // could've added WS_VISIBLE or other way
 
 		// update the global map
-		hWndToTopLevelWndMap[hWnd] = this;
+		hWndToTopLevelWndMap[this->hWnd] = this;
 	}
 
 	TopLevelWnd() = default;
@@ -168,11 +168,17 @@ struct TopLevelWnd : public Wnd
 		: Wnd(std::move(source)),
 		file(std::move(source.file))
 	{
+		editControl = source.editControl;
+		hMenu = source.hMenu;
 	}
 	TopLevelWnd& operator=(TopLevelWnd&& right)
 	{
 		Wnd::operator=(std::move(right));
 		file = std::move(right.file);
+
+		editControl = right.editControl;
+		hMenu = right.hMenu;
+
 		return *this;
 	}
 
