@@ -13,6 +13,7 @@ HRESULT SaveFileByDialog(std::wstring& fileNameHolder);
 // EventHandlers.cpp
 void OnSaveAs(TopLevelWnd& wnd);
 void OnSave(TopLevelWnd& wnd);
+void ConvertWindowsToUnixLineEndings(wchar_t dest[], const wchar_t source[], long long int nMax);
 
 HRESULT GetFileByDialog(std::wstring& fileNameHolder);	// fromCommonFileDialogApp.cpp
 HRESULT SetDefaultValuesForProperties();

@@ -82,12 +82,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				std::wstring line;
 				std::getline(hWndToTopLevelWndMap[hWnd]->file, line);
+				// Even though I'm using Unix now, for the edit control to correctly
+				// display the text, I need its version of the text data use new lines 
+				// in Windows style.
 				contents << line << "\r\n";
 			}
 
 			// set the contents of the edit control to the contents of the wstringstream
 			// this window's now associated with an existing file, so set newFile to false
 			SetWindowTextW(hWndToTopLevelWndMap[hWnd]->editControl, contents.str().c_str());
+			hWndToTopLevelWndMap[hWnd]->filePath = fileName;
 			hWndToTopLevelWndMap[hWnd]->newFile = false;
 		}
 		break;
