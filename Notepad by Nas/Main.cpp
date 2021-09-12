@@ -32,7 +32,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLin
 	mainWnd.ncHeight = wr.bottom - wr.top;
 
 	mainWnd = TopLevelWnd(wr.left, wr.right, wr.left, wr.top, 1280, 720, wr.right - wr.left, wr.bottom - wr.top, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, 0, L"Main Window Class", L"Main Window", hInstance);
-
+	hWndToTopLevelWndMap[windows[0].hWnd] = &windows[0];
 	
 
 	// Message Loop
