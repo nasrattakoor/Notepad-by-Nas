@@ -186,4 +186,5 @@ struct TopLevelWnd : public Wnd
 	HWND editControl;
 	std::wfstream file;
 	std::wstring filePath;
+	bool editsSaved = false;
 };

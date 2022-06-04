@@ -12,7 +12,7 @@ void OnSaveAs(TopLevelWnd& wnd)
 	// TODO: handle user hitting Cancel
 	if (FAILED(hr))
 	{
-		exit(-1);
+		return;
 	}
 
 	// get the length of text in edit control
